@@ -26,8 +26,6 @@ def sign_in():
     #pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     pw_hash = password_receive;
     result = db.user.find_one({'id':username_receive,'password':pw_hash})
-    print(username_receive,pw_hash)
-    print(result)
     if result is not None:
         payload = {
             'id': username_receive,
