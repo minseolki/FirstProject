@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="en">
+
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+              integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+                integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+                crossorigin="anonymous"></script>
+
+        <title>회원가입</title>
+
+        <link href="https://fonts.googleapis.com/css2?family=Gowun+Dodum&display=swap" rel="stylesheet">
+
+        <style>
+            * {
+                font-family: 'Gowun Dodum', sans-serif;
+            }
+
+            body {
+                background-color: #f5f6f7;
+
+            }
+
+            .title {
+                text-align: center;
+                margin-top: 100px;
+            }
+
+
+            .wrap{
+                width: 350px;
+                margin-left: auto;
+                margin-right: auto;
+                margin-bottom: 10px;
+            }
+
+            .btn {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                justify-content: center;
+
+                margin-inside: 20px;
+                margin-top: 20px;
+            }
+
+            label{
+                float: left;
+            }
+
+
+
+        </style>
+        <script>
+            function sign_in(){
+                let name = $('#name').val()
+                let id = $('#id').val()
+                let password = $('#password').val()
+
+
+            $.ajax({
+                type: "POST",
+                url: "/sign_in",
+                data: {name_give: name, id_give : id, password_give : password},
+                success: function (response) {
+                    alert(response["msg"])
+                    console.log(name,id,password)
+                    window.location.reload()
+                }
+            });
+        }
+
+        </script>
+    </head>
+
+    <body>
+
+        <h1 class="title">회원가입</h1>
+        <div class="wrap">
+            <div>
+            <label for="exampleFormControlInput1">이름</label>
+            <div class="form-group">
+                <input id="name" type="text" class="form-control" id="exampleFormControlInput1"
+                       placeholder="이름 입력">
+            </div>
+        </div>
+            <div>
+            <label for="exampleFormControlInput2">ID</label>
+            <div class="form-group">
+                <input id="id" type="text" class="form-control" id="exampleFormControlInput2"
+                       placeholder="아이디 입력">
+            </div>
+        </div>
+            <div>
+            <label for="exampleFormControlInput3">비밀번호</label>
+            <div class="form-group">
+                <input id="password" type="password" class="form-control" id="exampleFormControlInput3"
+                       placeholder="비밀번호 입력">
+            </div>
+        </div>
+
+
+        </div>
+
+        <div class="btn">
+                <button onclick="sign_in()" type="button" class="btn btn-outline-primary">가입하기</button>
+                <button type="button" class="btn btn-outline-primary">로그인하기</button>
+        </div>
+
+
+
+
+
+    </body>
+
+</html>
