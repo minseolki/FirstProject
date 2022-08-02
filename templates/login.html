@@ -66,10 +66,10 @@
       }
     </style>
     <script>
-      function signUp() {
+      function toSignUp() {
         window.location.replace("/");
       }
-      function signIn() {
+      function login() {
         let id = $("#input-id").val();
         let password = $("#input-password").val();
 
@@ -142,11 +142,11 @@
           </p>
         </div>
 
-        <button type="button" class="button" onclick="signIn()">로그인</button>
+        <button type="button" class="button" onclick="login()">로그인</button>
         <hr />
         <div class="signUp">
           <p>혹시 아이디가 없으신가요?</p>
-          <button type="button" class="button" onclick="signUp()">
+          <button type="button" class="button" onclick="toSignUp()">
             회원가입
           </button>
         </div>
