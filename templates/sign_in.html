@@ -65,15 +65,16 @@
 
             $.ajax({
                 type: "POST",
-                url: "/sign_in",
+                url: "/api/sign_in",
                 data: {name_give: name, id_give : id, password_give : password},
                 success: function (response) {
                     alert(response["msg"])
-                    console.log(name,id,password)
                     window.location.reload()
                 }
             });
         }
+
+
 
         </script>
     </head>
@@ -109,7 +110,7 @@
 
         <div class="btn">
                 <button onclick="sign_in()" type="button" class="btn btn-outline-primary">가입하기</button>
-                <button type="button" class="btn btn-outline-primary">로그인하기</button>
+                <button type="button" class="btn btn-outline-primary">홈으로</button>
         </div>
 
 

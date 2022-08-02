@@ -49,9 +49,9 @@ def load_image():
     image = list(db.temp_img.find({}, {'_id': False}))
     return jsonify({'temp_img': image})
 
-@app.route('/api/sign_in',methods=['POST'])
+@app.route('/api/login',methods=['POST'])
 
-def sign_in():
+def login():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
 
@@ -68,23 +68,29 @@ def sign_in():
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
     
-@app.route('/sign_in', methods=["POST"])
-def sign_in():
+@app.route('/api/sign_in', methods=["POST"])
+def api_sign_in():
 
     name_receive = request.form['name_give']
     id_receive = request.form['id_give']
     password_receive = request.form['password_give']
 
+    # 비밀번호 암호화
+    password_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
 
     doc = {
         'name' : name_receive,
         'id': id_receive,
-        'password': password_receive
+        'password': password_hash
     }
     db.user.insert_one(doc)
 
     return jsonify({'msg': '등록 완료!'})
 
+
+@app.route('/sign_in')
+def sign_In():
+    return render_template('sign_in.html')
 
 
 @app.route('/login')
