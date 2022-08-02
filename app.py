@@ -27,12 +27,14 @@ def detail():
 @app.route("/recipe", methods =["POST"])
 def save_recipe():
     title_receive = request.form['title_give']
+    line_desc_receive = request.form['line_desc_give']
     content_receive = request.form['content_give']
     img_receive = request.form['img_give']
+    time_receive = request.form['time_give']
     # id_receive = request.form['id_give'] -> 유저 아이디
     # pw_receive = request.form['pw_give'] -> 유저 패스워드
     # num_receive = request.form['num_give'] -> 유저 작성글 넘버
-    doc = {'title': title_receive, 'content': content_receive, 'img': img_receive}
+    doc = {'title': title_receive, 'line_desc': line_desc_receive, 'content': content_receive, 'img': img_receive, 'time': time_receive}
     db.recipe.insert_one(doc)
     return jsonify({'msg': '작성 완료'})
 
