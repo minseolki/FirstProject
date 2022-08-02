@@ -18,11 +18,23 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-
 @app.route('/recipe')
 def detail():
     return render_template('recipe.html')
 
+@app.route('/login')
+def log_in():
+    return render_template('login.html')
+
+@app.route('/sign_in')
+def sign_in():
+    return render_template('sign_in.html')
+
+# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
+@app.route('/recipe', methods=['GET'])
+def recipe_list():
+    recipes = list(db.recipes.find({}, {'_id': False}))
+    return jsonify({'recipe': recipes})
 
 @app.route("/recipe", methods =["POST"])
 def save_recipe():
@@ -70,8 +82,7 @@ def log_in_api():
     
 
 @app.route('/sign_in', methods=["POST"])
-def sign_in():
-
+def sign_in_api():
     name_receive = request.form['name_give']
     id_receive = request.form['id_give']
     password_receive = request.form['password_give']
@@ -84,19 +95,6 @@ def sign_in():
     db.user.insert_one(doc)
 
     return jsonify({'msg': '등록 완료!'})
-
-
-
-@app.route('/login')
-def log_in():
-    return render_template('login.html')
-
-# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
-@app.route('/recipe', methods=['GET'])
-def recipe_list():
-    recipes = list(db.recipes.find({}, {'_id': False}))
-    return jsonify({'recipe': recipes})
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
