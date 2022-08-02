@@ -18,9 +18,9 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-<<<<<<< HEAD
+
 @app.route('/api/login',methods=['POST'])
-=======
+
 
 @app.route('/recipe')
 def detail():
@@ -50,7 +50,7 @@ def load_image():
     return jsonify({'temp_img': image})
 
 @app.route('/api/sign_in',methods=['POST'])
->>>>>>> bd9201af7afe8186555cda61f914c704ca9185ff
+
 def sign_in():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
