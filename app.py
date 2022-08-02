@@ -19,12 +19,10 @@ def home():
     return render_template('index.html')
 
 
-@app.route('/api/login',methods=['POST'])
-
-
 @app.route('/recipe')
 def detail():
     return render_template('recipe.html')
+
 
 @app.route("/recipe", methods =["POST"])
 def save_recipe():
@@ -38,20 +36,22 @@ def save_recipe():
     db.recipe.insert_one(doc)
     return jsonify({'msg': '작성 완료'})
 
+
 @app.route("/temp_img", methods = ["POST"])
 def save_image():
     img_receive = request.form['img_give']
     db.temp_img.update_one({'num' :1}, {'$set': {'img': img_receive}})
     return jsonify({'msg': '이미지로드 완료'})
 
+
 @app.route("/temp_img", methods = ["GET"])
 def load_image():
     image = list(db.temp_img.find({}, {'_id': False}))
     return jsonify({'temp_img': image})
 
-@app.route('/api/sign_in',methods=['POST'])
 
-def sign_in():
+@app.route('/api/login',methods=['POST'])
+def log_in_api():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
 
@@ -68,13 +68,13 @@ def sign_in():
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
     
+
 @app.route('/sign_in', methods=["POST"])
 def sign_in():
 
     name_receive = request.form['name_give']
     id_receive = request.form['id_give']
     password_receive = request.form['password_give']
-
 
     doc = {
         'name' : name_receive,
@@ -88,7 +88,7 @@ def sign_in():
 
 
 @app.route('/login')
-def login():
+def log_in():
     return render_template('login.html')
 
 # 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
