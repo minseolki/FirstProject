@@ -18,7 +18,7 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-@app.route('/api/sign_in',methods=['POST'])
+@app.route('/api/login',methods=['POST'])
 def sign_in():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
@@ -38,6 +38,24 @@ def sign_in():
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
     
+@app.route('/sign_in', methods=["POST"])
+def sign_in():
+
+    name_receive = request.form['name_give']
+    id_receive = request.form['id_give']
+    password_receive = request.form['password_give']
+
+
+    doc = {
+        'name' : name_receive,
+        'id': id_receive,
+        'password': password_receive
+    }
+    db.user.insert_one(doc)
+
+    return jsonify({'msg': '등록 완료!'})
+
+
 
 @app.route('/login')
 def login():
