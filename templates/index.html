@@ -111,7 +111,7 @@
             let rows = response["recipe"];
             for (let i = 0; i < rows.length; i++) {
               let title = rows[i]["title"];
-              let content = rows[i]["content"];
+              let line_desc = rows[i]["line_desc"];
               let img = rows[i]["img"];
 
               let temp_html = `<div class="col cards-content" style="width: 20rem">
@@ -120,7 +120,7 @@
                                                      class="card-img-top">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${title}</h5>
-                                                    <p class="card-text">${content}</p>
+                                                    <p class="card-text">${line_desc}</p>
                                                     <a href="#" class="btn btn-outline-dark">상세보기</a>
                                                 </div>
 
