@@ -18,7 +18,7 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-@app.route('/api/sign_in',methods=['POST'])
+@app.route('/api/login',methods=['POST'])
 def sign_in():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
