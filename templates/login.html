@@ -20,6 +20,9 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
+        background-image: url("https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
+        background-position: center;
+        background-size: cover;
       }
 
       .left-section > img {
@@ -122,57 +125,45 @@
   </head>
   <body>
     <div class="container">
-      <section class="left-section">
-        <img
-          src="https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80"
-          class="d-block w-100"
-        />
-      </section>
-      <section>
-        <form id="login">
-          <div class="field">
-            <label for="input-id" class="form-label">아이디</label>
-            <input
-              class="input"
-              type="text"
-              id="input-id"
-              oninput="removeSafe('id')"
-              placeholder="아이디를 입력해주세요."
-            />
-            <p id="help-id" class="help is-hidden not-input">
-              아이디를 입력해주세요.
-            </p>
-          </div>
-          <div class="field">
-            <label for="input-password" class="form-label">비밀번호</label>
-            <input
-              type="password"
-              class="input"
-              id="input-password"
-              oninput="removeSafe('password')"
-              placeholder="비밀번호를 입력해주세요."
-            />
-            <p id="help-password" class="help is-hidden not-input">
-              비밀번호를 입력해주세요.
-            </p>
-          </div>
+      <form id="login">
+        <div class="field">
+          <label for="input-id" class="form-label">아이디</label>
+          <input
+            class="input"
+            type="text"
+            id="input-id"
+            oninput="removeSafe('id')"
+            placeholder="아이디를 입력해주세요."
+          />
+          <p id="help-id" class="help is-hidden not-input">
+            아이디를 입력해주세요.
+          </p>
+        </div>
+        <div class="field">
+          <label for="input-password" class="form-label">비밀번호</label>
+          <input
+            type="password"
+            class="input"
+            id="input-password"
+            oninput="removeSafe('password')"
+            placeholder="비밀번호를 입력해주세요."
+          />
+          <p id="help-password" class="help is-hidden not-input">
+            비밀번호를 입력해주세요.
+          </p>
+        </div>
 
-          <button type="button" class="button is-primary" onclick="login()">
-            로그인
+        <button type="button" class="button is-primary" onclick="login()">
+          로그인
+        </button>
+        <hr />
+        <div class="signUp">
+          <p>혹시 아이디가 없으신가요?</p>
+          <button type="button" class="button is-primary" onclick="toSignUp()">
+            회원가입
           </button>
-          <hr />
-          <div class="signUp">
-            <p>혹시 아이디가 없으신가요?</p>
-            <button
-              type="button"
-              class="button is-primary"
-              onclick="toSignUp()"
-            >
-              회원가입
-            </button>
-          </div>
-        </form>
-      </section>
+        </div>
+      </form>
     </div>
   </body>
 </html>
