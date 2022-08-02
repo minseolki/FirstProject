@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- CSS only -->
+
+    <!-- JavaScript Bundle with Popper -->
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
+    />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    <title>로그인</title>
+    <style>
+      .container {
+        width: 100vw;
+        height: 100vh;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+      }
+
+      form {
+        width: 500px;
+        background-color: white;
+        height: 400px;
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        border: 2px solid black;
+        border-radius: 16px;
+      }
+
+      .input {
+        width: 400px;
+      }
+      .button {
+        margin-top: 10px;
+        width: 400px;
+      }
+
+      .field {
+        display: flex;
+        flex-direction: column;
+      }
+      hr {
+        border-top: 1px solid #e2e2e2;
+        width: 80%;
+      }
+      .signUp {
+        margin: 0 auto;
+        width: 100%;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        margin: 0 auto;
+      }
+
+      .signUp > p {
+        font-weight: bold;
+      }
+    </style>
+    <script>
+      function signUp() {
+        window.location.replace("/");
+      }
+      function signIn() {
+        let id = $("#input-id").val();
+        let password = $("#input-password").val();
+
+        if (id == "") {
+          $("#help-id").removeClass("is-hidden");
+          $("#help-id").text("아이디를 입력해주세요.");
+          $("#input-id").focus();
+          return;
+        } else {
+          $("#help-id-login").text("");
+          $("#help-id").addClass("is-hidden");
+        }
+
+        if (password == "") {
+          $("#help-password").text("비밀번호를 입력해주세요.");
+          $("#help-password").removeClass("is-hidden");
+          $("#input-password").focus();
+          return;
+        } else {
+          $("#help-password-login").text("");
+          $("#help-password").addClass("is-hidden");
+        }
+
+        $.ajax({
+          type: "POST",
+          url: "/api/sign_in",
+          data: {
+            username_give: id,
+            password_give: password,
+          },
+          success: function (response) {
+            if (response["result"] == "success") {
+              $.cookie("mytoken", response["token"], { path: "/" });
+              window.location.replace("/");
+            } else {
+              alert(response["msg"]);
+            }
+          },
+        });
+      }
+    </script>
+  </head>
+  <body>
+    <div class="container">
+      <form id="login">
+        <div class="field">
+          <label for="input-id" class="form-label">아이디</label>
+          <input
+            class="input"
+            type="text"
+            id="input-id"
+            placeholder="아이디를 입력해주세요."
+          />
+          <p id="help-id" class="help is-hidden">
+            아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
+            가능합니다.
+          </p>
+        </div>
+        <div class="field">
+          <label for="input-password" class="form-label">비밀번호</label>
+          <input
+            type="password"
+            class="input"
+            id="input-password"
+            placeholder="비밀번호를 입력해주세요."
+          />
+          <p id="help-password" class="help is-hidden">
+            아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
+            가능합니다.
+          </p>
+        </div>
+
+        <button type="button" class="button" onclick="signIn()">로그인</button>
+        <hr />
+        <div class="signUp">
+          <p>혹시 아이디가 없으신가요?</p>
+          <button type="button" class="button" onclick="signUp()">
+            회원가입
+          </button>
+        </div>
+      </form>
+    </div>
+  </body>
+</html>
