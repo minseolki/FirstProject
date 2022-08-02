@@ -18,11 +18,23 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-
 @app.route('/recipe')
 def detail():
     return render_template('recipe.html')
 
+@app.route('/login')
+def log_in():
+    return render_template('login.html')
+
+@app.route('/sign_in')
+def sign_in():
+    return render_template('sign_in.html')
+
+# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
+@app.route('/recipe', methods=['GET'])
+def recipe_list():
+    recipes = list(db.recipes.find({}, {'_id': False}))
+    return jsonify({'recipe': recipes})
 
 # 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
 @app.route('/api/recipe', methods=['GET'])
@@ -85,7 +97,6 @@ def log_in_api():
 
 @app.route('/api/sign_in', methods=["POST"])
 def api_sign_in():
-
     name_receive = request.form['name_give']
     id_receive = request.form['id_give']
     password_receive = request.form['password_give']
@@ -103,7 +114,6 @@ def api_sign_in():
     db.user.insert_one(doc)
 
     return jsonify({'msg': '등록 완료!'})
-
 
 @app.route('/sign_in')
 def sign_In():
@@ -127,6 +137,7 @@ def homework_post():
     db.comments.insert_one(doc)
 
     return jsonify({'msg':'입력되었습니다.'})
+
 
 @app.route("/homework", methods=["GET"])
 def homework_get():

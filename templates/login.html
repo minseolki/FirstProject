@@ -11,18 +11,23 @@
     />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
     <title>로그인</title>
     <style>
       .container {
         width: 100vw;
         height: 100vh;
         display: flex;
-        flex-direction: column;
+        flex-direction: row;
         align-items: center;
         justify-content: center;
+        background-image: url("https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
+        background-position: center;
+        background-size: cover;
       }
 
+      .left-section > img {
+        margin: 0 auto;
+      }
       form {
         width: 500px;
         background-color: white;
@@ -41,6 +46,10 @@
       .button {
         margin-top: 10px;
         width: 400px;
+      }
+
+      .not-input {
+        color: red !important;
       }
 
       .field {
@@ -69,13 +78,16 @@
       function toSignUp() {
         window.location.replace("/sign_in");
       }
+
+      function removeSafe(target) {
+        $(`#help-${target}`).addClass("is-hidden");
+      }
       function login() {
         let id = $("#input-id").val();
         let password = $("#input-password").val();
 
         if (id == "") {
           $("#help-id").removeClass("is-hidden");
-          $("#help-id").text("아이디를 입력해주세요.");
           $("#input-id").focus();
           return;
         } else {
@@ -84,7 +96,6 @@
         }
 
         if (password == "") {
-          $("#help-password").text("비밀번호를 입력해주세요.");
           $("#help-password").removeClass("is-hidden");
           $("#input-password").focus();
           return;
@@ -121,11 +132,11 @@
             class="input"
             type="text"
             id="input-id"
+            oninput="removeSafe('id')"
             placeholder="아이디를 입력해주세요."
           />
-          <p id="help-id" class="help is-hidden">
-            아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
-            가능합니다.
+          <p id="help-id" class="help is-hidden not-input">
+            아이디를 입력해주세요.
           </p>
         </div>
         <div class="field">
@@ -134,19 +145,21 @@
             type="password"
             class="input"
             id="input-password"
+            oninput="removeSafe('password')"
             placeholder="비밀번호를 입력해주세요."
           />
-          <p id="help-password" class="help is-hidden">
-            아이디는 2-10자의 영문과 숫자와 일부 특수문자(._-)만 입력
-            가능합니다.
+          <p id="help-password" class="help is-hidden not-input">
+            비밀번호를 입력해주세요.
           </p>
         </div>
 
-        <button type="button" class="button" onclick="login()">로그인</button>
+        <button type="button" class="button is-primary" onclick="login()">
+          로그인
+        </button>
         <hr />
         <div class="signUp">
           <p>혹시 아이디가 없으신가요?</p>
-          <button type="button" class="button" onclick="toSignUp()">
+          <button type="button" class="button is-primary" onclick="toSignUp()">
             회원가입
           </button>
         </div>
