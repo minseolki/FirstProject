@@ -105,22 +105,22 @@
       function show_recipe() {
         $.ajax({
           type: "GET",
-          url: "/recipe",
+          url: "/api/recipe",
           data: {},
           success: function (response) {
-            let rows = response["recipes"];
+            let rows = response["recipe"];
             for (let i = 0; i < rows.length; i++) {
               let title = rows[i]["title"];
-              let shortContent = rows[i]["shortContent"];
-              let image = rows[i]["image"];
+              let content = rows[i]["content"];
+              let img = rows[i]["img"];
 
               let temp_html = `<div class="col cards-content" style="width: 20rem">
                                             <div class="card h-100">
-                                                <img src="${image}"
+                                                <img src="${img}"
                                                      class="card-img-top">
                                                 <div class="card-body">
                                                     <h5 class="card-title">${title}</h5>
-                                                    <p class="card-text">${shortContent}</p>
+                                                    <p class="card-text">${content}</p>
                                                     <a href="#" class="btn btn-outline-dark">상세보기</a>
                                                 </div>
 
@@ -209,71 +209,6 @@
     </div>
 
     <div class="row row-cols-1 row-cols-md-4 g-4 cards-box" id="cards-box">
-      <div class="col cards-content" style="width: 20rem">
-        <div class="card h-100">
-          <img
-            src="https://recipe1.ezmember.co.kr/cache/recipe/2018/05/24/62a09f43de2b64ec69629b8966f73f431.jpg"
-            class="card-img-top"
-          />
-          <div class="card-body">
-            <h5 class="card-title">삼겹살 볶음밥</h5>
-            <p class="card-text">냉장고 털이에 딱힌 볶음밥</p>
-            <a href="#" class="btn btn-outline-dark">상세보기</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cards-content" style="width: 20rem">
-        <div class="card h-100">
-          <img
-            src="https://recipe1.ezmember.co.kr/cache/recipe/2018/05/24/62a09f43de2b64ec69629b8966f73f431.jpg"
-            class="card-img-top"
-          />
-          <div class="card-body">
-            <h5 class="card-title">삼겹살 볶음밥</h5>
-            <p class="card-text">냉장고 털이에 딱힌 볶음밥</p>
-            <a href="#" class="btn btn-outline-dark">상세보기</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cards-content" style="width: 20rem">
-        <div class="card h-100">
-          <img
-            src="https://recipe1.ezmember.co.kr/cache/recipe/2018/05/24/62a09f43de2b64ec69629b8966f73f431.jpg"
-            class="card-img-top"
-          />
-          <div class="card-body">
-            <h5 class="card-title">삼겹살 볶음밥</h5>
-            <p class="card-text">냉장고 털이에 딱힌 볶음밥</p>
-            <a href="#" class="btn btn-outline-dark">상세보기</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cards-content" style="width: 20rem">
-        <div class="card h-100">
-          <img
-            src="https://recipe1.ezmember.co.kr/cache/recipe/2018/05/24/62a09f43de2b64ec69629b8966f73f431.jpg"
-            class="card-img-top"
-          />
-          <div class="card-body">
-            <h5 class="card-title">삼겹살 볶음밥</h5>
-            <p class="card-text">냉장고 털이에 딱힌 볶음밥</p>
-            <a href="#" class="btn btn-outline-dark">상세보기</a>
-          </div>
-        </div>
-      </div>
-      <div class="col cards-content" style="width: 20rem">
-        <div class="card h-100">
-          <img
-            src="https://recipe1.ezmember.co.kr/cache/recipe/2018/05/24/62a09f43de2b64ec69629b8966f73f431.jpg"
-            class="card-img-top"
-          />
-          <div class="card-body">
-            <h5 class="card-title">삼겹살 볶음밥</h5>
-            <p class="card-text">냉장고 털이에 딱힌 볶음밥</p>
-            <a href="#" class="btn btn-outline-dark">상세보기</a>
-          </div>
-        </div>
-      </div>
     </div>
 
     <footer>

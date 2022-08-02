@@ -24,6 +24,13 @@ def detail():
     return render_template('recipe.html')
 
 
+# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
+@app.route('/api/recipe', methods=['GET'])
+def recipe_get():
+    recipes = list(db.recipe.find({}, {'_id': False}))
+    return jsonify({'recipe': recipes})
+
+
 @app.route("/recipe", methods =["POST"])
 def save_recipe():
     title_receive = request.form['title_give']
@@ -93,11 +100,6 @@ def sign_in():
 def log_in():
     return render_template('login.html')
 
-# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
-@app.route('/recipe', methods=['GET'])
-def recipe_list():
-    recipes = list(db.recipes.find({}, {'_id': False}))
-    return jsonify({'recipe': recipes})
 
 @app.route("/homework", methods=["POST"])
 def homework_post():
