@@ -18,26 +18,30 @@
             window.location.href = "/"
         }
 
-        function save_recipe() {
+        function save_recipe(a) {
             let title = $('#title').val()
             let content = $('#content').val()
+            let line_desc = $('#line_desc').val()
             let img = $('#img').val()
-            if (title == [] || content == [] || img == []){
-                if(img ==[]){
+            a = time
+            if (title == [] || content == [] || img == [] || line_desc == []) {
+                if (img == []) {
                     alert('이미지 URL을 입력하세요')
                 }
-                if(title==[]){
+                if (title == []) {
                     alert('제목을 입력하세요')
                 }
-                if(content==[]){
+                if (line_desc == []) {
+                    alert('한 줄 설명을 입력하세요')
+                }
+                if (content == []) {
                     alert('내용을 입력하세요')
                 }
-            }
-            else {
+            } else {
                 $.ajax({
                     type: "POST",
                     url: "/recipe",
-                    data: {title_give: title, content_give: content, img_give: img},
+                    data: {title_give: title, line_desc_give: line_desc, content_give: content, img_give: img, time_give: time},
                     success: function (response) {
                         alert(response["msg"])
                         to_main()
@@ -48,29 +52,27 @@
 
         function save_img() {
             let img = $('#img').val()
-            if (img == []){
+            if (img == []) {
                 alert("URL을 입력해주세요")
                 count = 1
-            }
-            else{
+            } else {
                 count = 0
                 $.ajax({
-                type: "POST",
-                url: "/temp_img",
-                data: {img_give: img, num: 1},
-                success: function (response) {
-                    alert(response["msg"])
-                }
-            })
+                    type: "POST",
+                    url: "/temp_img",
+                    data: {img_give: img, num: 1},
+                    success: function (response) {
+                        alert(response["msg"])
+                    }
+                })
             }
 
         }
 
         function load_img() {
-            if (count== 1){
+            if (count == 1) {
                 return 0
-            }
-            else{
+            } else {
                 $.ajax({
                     type: "GET",
                     url: "/temp_img",
@@ -79,10 +81,20 @@
                         let rows = response['temp_img']
                         let img_temp = rows[0]['img']
                         temp_html = `<img src= "${img_temp}" alt ="이미지준비중" style="max-width: 30%; max-height: 250px; margin-left: 200px; margin-top: 15px; float:left;">`
+                        $('#img_temp').empty()
                         $('#img_temp').append(temp_html)
                     }
                 })
-        }}
+            }
+        }
+        function get_time(){
+            const date = new Date()
+            const year = date.getFullYear()
+            const month = date.getMonth()
+            const day = date.getDate()
+            time = year+"년 "+month+"월 "+day+"일 "
+            return time
+        }
     </script>
     <style>
         * {
@@ -100,17 +112,18 @@
 <div id="img_temp"></div>
 <div style="width:30%;  float:right;  margin-right: 300px;" class="mb-3">
     <label for="exampleFormControlInput1" class="form-label">Title </label>
-    <input id="title" type="text" class="form-control" placeholder="여기에 제목을 입력하세요">
-    <div class="mb-3" style="margin-top: 10px">
-        <label for="exampleFormControlTextarea1" class="form-label">Content</label>
+    <input style="margin-bottom: 5px" id="title" type="text" class="form-control" placeholder="여기에 제목을 입력하세요">
+    <label for="exampleFormControlInput1" class="form-label">Line Description </label>
+    <input style="margin-bottom: 5px" id="line_desc" type="text" class="form-control" placeholder="여기에 한 줄 설명을 입력하세요">
+    <div class="mb-3">
+        <label for="exampleFormControlTextarea1" class="form-label">Contents</label>
         <textarea class="form-control" id="content" rows="6" placeholder="여기에 내용을 입력하세요"></textarea>
     </div>
 </div>
 
 <div style="clear:both; width: 200px; margin: auto;">
-    <button onclick="save_recipe()" type="button" class="btn btn-secondary">작성</button>
+    <button onclick="save_recipe(get_time())" type="button" class="btn btn-secondary">작성</button>
     <button onclick="to_main()" type="button" class="btn btn-secondary">취소</button>
 </div>
-
 </body>
 </html>
