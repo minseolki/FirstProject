@@ -18,7 +18,39 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
+<<<<<<< HEAD
 @app.route('/api/login',methods=['POST'])
+=======
+
+@app.route('/recipe')
+def detail():
+    return render_template('recipe.html')
+
+@app.route("/recipe", methods =["POST"])
+def save_recipe():
+    title_receive = request.form['title_give']
+    content_receive = request.form['content_give']
+    img_receive = request.form['img_give']
+    # id_receive = request.form['id_give'] -> 유저 아이디
+    # pw_receive = request.form['pw_give'] -> 유저 패스워드
+    # num_receive = request.form['num_give'] -> 유저 작성글 넘버
+    doc = {'title': title_receive, 'content': content_receive, 'img': img_receive}
+    db.recipe.insert_one(doc)
+    return jsonify({'msg': '작성 완료'})
+
+@app.route("/temp_img", methods = ["POST"])
+def save_image():
+    img_receive = request.form['img_give']
+    db.temp_img.update_one({'num' :1}, {'$set': {'img': img_receive}})
+    return jsonify({'msg': '이미지로드 완료'})
+
+@app.route("/temp_img", methods = ["GET"])
+def load_image():
+    image = list(db.temp_img.find({}, {'_id': False}))
+    return jsonify({'temp_img': image})
+
+@app.route('/api/sign_in',methods=['POST'])
+>>>>>>> bd9201af7afe8186555cda61f914c704ca9185ff
 def sign_in():
     username_receive = request.form['username_give']
     password_receive = request.form['password_give']
@@ -26,8 +58,6 @@ def sign_in():
     #pw_hash = hashlib.sha256(password_receive.encode('utf-8')).hexdigest()
     pw_hash = password_receive;
     result = db.user.find_one({'id':username_receive,'password':pw_hash})
-    print(username_receive,pw_hash)
-    print(result)
     if result is not None:
         payload = {
             'id': username_receive,
@@ -60,6 +90,12 @@ def sign_in():
 @app.route('/login')
 def login():
     return render_template('login.html')
+
+# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
+@app.route('/recipe', methods=['GET'])
+def recipe_list():
+    recipes = list(db.recipes.find({}, {'_id': False}))
+    return jsonify({'recipe': recipes})
 
 
 if __name__ == '__main__':
