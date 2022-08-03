@@ -33,13 +33,6 @@ def write():
 def comment(keyword):
     return render_template('comment.html', word=keyword)
 
-
-@app.route('/detail/recipe', methods=['GET'])
-def detail_recipe_get(a):
-    de_recipe = db.recipe.find({}, {'title': a})
-    return jsonify({'de_recipe': de_recipe})
-
-
 @app.route('/login')
 def log_in():
     return render_template('login.html')
