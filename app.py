@@ -18,11 +18,23 @@ SECRET_KEY = 'SPARTA'
 def home():
     return render_template('index.html')
 
-
 @app.route('/recipe')
 def detail():
     return render_template('recipe.html')
 
+@app.route('/login')
+def log_in():
+    return render_template('login.html')
+
+@app.route('/sign_in')
+def sign_in():
+    return render_template('sign_in.html')
+
+# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
+@app.route('/recipe', methods=['GET'])
+def recipe_list():
+    recipes = list(db.recipes.find({}, {'_id': False}))
+    return jsonify({'recipe': recipes})
 
 # 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
 @app.route('/api/recipe', methods=['GET'])
@@ -73,7 +85,7 @@ def log_in_api():
             'id': username_receive,
             'exp':datetime.utcnow() + timedelta(seconds=60*5)
         }
-        token = jwt.encode(payload,SECRET_KEY,algorithm='HS256').decode('utf-8')
+        token = jwt.encode(payload,SECRET_KEY,algorithm='HS256')
         return jsonify({'result':'success','token':token})
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
@@ -81,7 +93,6 @@ def log_in_api():
 
 @app.route('/api/sign_in', methods=["POST"])
 def api_sign_in():
-
     name_receive = request.form['name_give']
     id_receive = request.form['id_give']
     password_receive = request.form['password_give']
@@ -100,22 +111,13 @@ def api_sign_in():
 
     return jsonify({'msg': '등록 완료!'})
 
+
 # 아이디 중복 확인
 @app.route('/sign_in/check_dup', methods=['POST'])
 def check_dup():
     id_receive = request.form['id_give']
     exists = bool(db.user.find_one({"id": id_receive}))
     return jsonify({'result': 'success', 'exists': exists})
-
-
-@app.route('/sign_in')
-def sign_In():
-    return render_template('sign_in.html')
-
-
-@app.route('/login')
-def log_in():
-    return render_template('login.html')
 
 
 @app.route("/homework", methods=["POST"])
@@ -131,12 +133,12 @@ def homework_post():
 
     return jsonify({'msg':'입력되었습니다.'})
 
+
 @app.route("/homework", methods=["GET"])
 def homework_get():
     # db 꺼내기(리스트)
     fancomments_ilst = list(db.comments.find({}, {'_id': False}))
     return jsonify({'fanlist':fancomments_ilst,'msg2':'GET완료'})
-
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
