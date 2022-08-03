@@ -9,10 +9,27 @@
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css"
     />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap"
+      rel="stylesheet"
+    />
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <title>로그인</title>
     <style>
+      * {
+        font-family: "Noto Sans KR", sans-serif;
+        margin: 0px;
+        padding: 0px;
+      }
+
+      body {
+        background-image: url("https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
+        background-position: center;
+        background-size: cover;
+        transition: background-image 5s ease;
+      }
+
       .container {
         width: 100vw;
         height: 100vh;
@@ -20,14 +37,8 @@
         flex-direction: row;
         align-items: center;
         justify-content: center;
-        background-image: url("https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80");
-        background-position: center;
-        background-size: cover;
       }
 
-      .left-section > img {
-        margin: 0 auto;
-      }
       form {
         width: 500px;
         background-color: white;
@@ -36,7 +47,7 @@
         flex-direction: column;
         justify-content: center;
         align-items: center;
-        border: 2px solid black;
+
         border-radius: 16px;
       }
 
@@ -73,8 +84,53 @@
       .signUp > p {
         font-weight: bold;
       }
+
+      @media screen and (max-width: 600px) {
+        form {
+          width: 350px;
+        }
+
+        .input {
+          width: 300px;
+        }
+
+        .button {
+          width: 300px;
+        }
+      }
     </style>
     <script>
+      window.onload = startAnimation;
+
+      function startAnimation() {
+        obTimeOut = window.setTimeout(showDefaultRotate, 5000);
+      }
+
+      let imageArray = [
+        "https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
+        "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1153&q=80",
+        "https://images.unsplash.com/photo-1466637574441-749b8f19452f?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2080&q=80",
+        "https://images.unsplash.com/photo-1490818387583-1baba5e638af?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1032&q=80",
+        "https://images.unsplash.com/photo-1627907228175-2bf846a303b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
+        "https://images.unsplash.com/photo-1564834744159-ff0ea41ba4b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmVjaXBlJTIwMTA4MHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
+      ];
+
+      let arrayIndex = 0;
+
+      function showDefaultRotate() {
+        arrayIndex++;
+        console.log("하하");
+        if (arrayIndex <= imageArray.length) {
+          document.body.style.backgroundImage = `url(${
+            imageArray[arrayIndex - 1]
+          })`;
+          obTimeOut = setTimeout(showDefaultRotate, 15000);
+        } else {
+          arrayIndex = 0;
+          obTimeOut = setTimeout(showDefaultRotate, 15000);
+        }
+      }
+
       function toSignUp() {
         window.location.replace("/sign_in");
       }
