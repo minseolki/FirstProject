@@ -16,11 +16,26 @@ SECRET_KEY = 'SPARTA'
 
 @app.route('/')
 def home():
+    token_receivve = request.cookies.get('mytoken')
     return render_template('index.html')
 
 @app.route('/recipe')
-def detail():
+def write():
     return render_template('recipe.html')
+
+# @app.route('/comment', methods = ['GET'])
+# def detail(keyword):
+#     #레시피 상세페이지로 가기
+#     return render_template('comment.html', title=keyword)
+@app.route('/comment/<keyword>')
+def comment(keyword):
+    return render_template('comment.html', word = keyword)
+
+
+@app.route('/detail/recipe', methods=['GET'])
+def detail_recipe_get(a):
+    de_recipe = db.recipe.find({}, {'title': a})
+    return jsonify({'de_recipe': de_recipe})
 
 @app.route('/login')
 def log_in():
@@ -41,7 +56,6 @@ def recipe_list():
 def recipe_get():
     recipes = list(db.recipe.find({}, {'_id': False}))
     return jsonify({'recipe': recipes})
-
 
 @app.route("/recipe", methods =["POST"])
 def save_recipe():
@@ -83,10 +97,9 @@ def log_in_api():
     if result is not None:
         payload = {
             'id': username_receive,
-            'exp':datetime.utcnow() + timedelta(seconds=60*5)
+            'exp':datetime.utcnow() + timedelta(seconds=60*60*24)
         }
         token = jwt.encode(payload,SECRET_KEY,algorithm='HS256').decode('utf-8')
-        #token = jwt.encode(payload,SECRET_KEY,algorithm='HS256')
         return jsonify({'result':'success','token':token})
     else:
         return jsonify({'result':'fail','msg':'아이디/비밀번호가 일치하지 않습니다.'})
@@ -120,11 +133,11 @@ def check_dup():
     exists = bool(db.user.find_one({"id": id_receive}))
     return jsonify({'result': 'success', 'exists': exists})
 
-@app.route("/homework", methods=["POST"])
-def homework_post():
+
+@app.route("/comment", methods=["POST"])
+def comment_post():
     name_r = request.form['name_g']
     comment_r = request.form['comment_g']
-    # db에 저장
     doc = {
         'name': name_r,
         'comment': comment_r
@@ -134,12 +147,14 @@ def homework_post():
     return jsonify({'msg':'입력되었습니다.'})
 
 
-@app.route("/homework", methods=["GET"])
-def homework_get():
-    # db 꺼내기(리스트)
-    fancomments_ilst = list(db.comments.find({}, {'_id': False}))
-    return jsonify({'fanlist':fancomments_ilst,'msg2':'GET완료'})
+@app.route("/comment", methods=["GET"])
+def comment_get():
+    comments_ilst = list(db.comments.find({}, {'_id': False}))
+    return jsonify({'cmtlist':comments_ilst,'msg2':'GET완료'})
+
+
 
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
+

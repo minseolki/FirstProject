@@ -7,6 +7,7 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
@@ -25,10 +26,7 @@
             width: 100%;
             height: 300px;
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('백그라운드 url');
-            background-position: center 30%;
-            background-size: cover;
-
+            background-color: black;
             color: white;
 
             display: flex;
@@ -36,21 +34,27 @@
             align-items: center;
             justify-content: center;
         }
-                .posting {
+
+
+        .posting {
             width: 100%;
             height: 300px;
 
-            background-image: url('백그라운드 url');
-            background-position: center 30%;
-            background-size: cover;
 
-            color: black;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .food {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: auto;
         }
+
+        .posting {
+            box-shadow: 0 0 3px 0 black;
+            margin: 20px auto 20px auto;
+            width: 90%;
+            padding: 20px;
+        }
+
 
         .comment-box {
             width: 95%;
@@ -77,81 +81,135 @@
         }
     </style>
     <script>
+        word = decodeURI(window.location.pathname).split('/')[2]
+        console.log(word)
         $(document).ready(function () {
-            set_temp()
             show_comment()
         });
+        {##}
 
-        function set_temp() {
-            let name = $('')
-            $.ajax({
-                type: "GET",
-                url: "http://spartacodingclub.shop/sparta_api/weather/seoul",
-                data: {},
-                success: function (response) {
-                    $('#temp').text(response['temp'])
-                }
-            })
+        function to_main() {
+            window.location.href = "/"
         }
 
-        function save_comment() {
-            let name = $('#name').val()
-            let comment = $('#comment').val()
-            $.ajax({
-                type: 'POST',
-                url: '/homework',
-                data: {
-                    name_g: name,
-                    comment_g: comment,
-                },
-                success: function (response) {
-                    window.location.reload()
-                }
-            })
-        }
+    {#    function get_recipe(word) {#}
+    {#        $.ajax({#}
+    {#            type: "GET",#}
+    {#            url: "/detail/recipe",#}
+    {#            data: {},#}
+    {#            success: function (response) {#}
+    {#                let rows = response["recipe"];#}
+    {#                let title = rows[0]["title"];#}
+    {#                let line_desc = rows[0]["line_desc"];#}
+    {#                let img = rows[0]["img"];#}
+    {#                let temp_img = `<img src="${img}">`#}
+    {#                $("#mypic").append(temp_img);#}
+    {#                let temp_html = `<div class="container">#}
+    {#    <div class="d-flex justify-content-between align-items-end">#}
+    {#        <div>#}
+    {#            <h1 style="display: inline;">${title}</h1>#}
+    {#            <h6 style="display: inline; margin-left: 20px"> ${line_desc} </h6>#}
+    {#        </div>#}
+    {#        <div class="btn-group" role="group" aria-label="Basic outlined example">#}
+    {#            <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>#}
+    {#            <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <hr>#}
+    {#    <div id="content">#}
+    {#        <span >${content}</span>#}
+    {#    </div>#}
+    {#</div>`;#}
+    {#                $("#posting").append(temp_html);#}
+    {##}
+    {#                recipe = [title, line_desc, img]#}
+    {##}
+    {#                console.log(recipe)#}
+    {#                return recipe#}
+    {#            }#}
+    {#        })#}
+    {#    }#}
+    {##}
 
-        function delete_comment(){
-            /*구현해야됨*/
-        }
 
-        function show_comment() {
-            $.ajax({
-                type: "GET",
-                url: "/homework",
-                data: {},
-                success: function (response) {
-                    let rows = response['fanlist']
-                    for (let i = 0; i < rows.length; i++) {
-                        let name = rows[i]['name']
-                        let comment = rows[i]['comment']
-                        let temp = `<div class="card">
-        <div class="card-body">
-            <blockquote class="blockquote mb-0">
-                <p>${name}</p>
-                <footer class="blockquote-footer">${comment}</footer>
-                    <button onclick="delete_comment()" type="button" class="btn btn-dark">삭제</button>
-            </blockquote>
-        </div>
-    </div>`
-                        $('#comment-list').append(temp)
+
+            function save_comment() {
+                let name = $('#name').val()
+                let comment = $('#comment').val()
+                $.ajax({
+                    type: 'POST',
+                    url: '/comment',
+                    data: {
+                        name_g: name,
+                        comment_g: comment,
+                    },
+                    success: function (response) {
+                        alert(response['msg'])
+                        window.location.reload()
+
+        
                     }
-                }
-            });
-        }
+                })
+            }
+
+
+            function show_comment() {
+                $.ajax({
+                    type: "GET",
+                    url: "/comment",
+                    data: {},
+                    success: function (response) {
+                        let rows = response['cmtlist']
+                        for (let i = 0; i < rows.length; i++) {
+                            let name = rows[i]['name']
+                            let comment = rows[i]['comment']
+                            let temp = `<div class="card">
+                                            <div class="card-body">
+                                                <blockquote class="blockquote mb-0">
+                                                    <p>${name}</p>
+                                                    <footer class="blockquote-footer">${comment}</footer>
+                                                        <button onclick="delete_comment()" type="button" class="btn btn-dark">삭제</button>
+                                                </blockquote>
+                                            </div>
+                                        </div>`
+                            $('#comment-list').append(temp)
+                        }
+                    }
+                });
+            }
     </script>
 </head>
+
 <body>
 <div class="mypic">
-    <h1>제목</h1>
+    <img class="food" style="max-width: 100%;max-height: 100%;"
+         src="http://cdn.kormedi.com/news/article/__icsFiles/artimage/2018/08/22/c_km601/salad580.jpg">
 </div>
+
 <div class="posting">
-    <h1>레시피 창</h1>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end">
+            <div>
+                <h1 id="title" style="display: inline;">title</h1>
+                <h6 id="line_desc" style="display: inline; margin-left: 20px"> line_desc </h6>
+            </div>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>
+                <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>
+            </div>
+        </div>
+        <hr>
+        <div id="content">
+            <span id=content>content</span>
+        </div>
+    </div>
 </div>
+
 <div class="comment-box">
     <div class="form-floating ">
 
         <input type="text" class="form-control" id="name" placeholder="url">
-        <label for="floatingInput">닉네임(미완, 받아오기)</label>
+        <label for="floatingInput">닉네임(익명)</label>
     </div>
     <div class="form-floating">
         <input type="text" class="form-control" id="comment" placeholder="Recipient's username"
@@ -162,6 +220,7 @@
 </div>
 <div class="mycards" id="comment-list">
 </div>
+<button onclick="word_log()" type="button" class="btn btn-dark">올리기</button>
 </body>
 </html>
 
