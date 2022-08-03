@@ -80,7 +80,7 @@
                     for (let i = 0; i < rows.length; i++) {
                         let title = rows[i]["title"];
                         let line_desc = rows[i]["line_desc"];
-                        let img = rows[i]["img"
+                        let img = rows[i]["img"];
 
                         let temp_html = `<div class="col cards-content" style="width: 20rem">
                                             <div class="card h-100 recipe-box">
@@ -228,7 +228,7 @@
 
         #topButton:hover {
             background-color: #eeee;
-            border:1px solid #eee
+            border: 1px solid #eee
         }
 
         @media (max-width: 800px) {
@@ -273,17 +273,6 @@
                     class="d-block w-100 carousel-img"
             />
         </div>
-        <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-        </button>
-        <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleControls"
-                data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-        </button>
-
     </div>
 </div>
 
@@ -297,5 +286,9 @@
 <div id="topButton" class="btn">
     ⬆
 </div>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-A3rJD856KowSb7dwlZdYEkO39Gagi7vIsF0jrRAoQmDKKtQBHUuLZ9AsSv4jD4Xa"
+        crossorigin="anonymous"></script>
+
 </body>
 </html>
