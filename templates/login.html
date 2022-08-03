@@ -200,6 +200,7 @@
           },
           success: function (response) {
             if (response["result"] == "success") {
+              alert("로그인 되었습니다.");
               $.cookie("mytoken", response["token"], { path: "/" });
               window.location.replace("/");
             } else {
