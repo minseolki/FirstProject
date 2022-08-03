@@ -42,13 +42,23 @@
       form {
         width: 500px;
         background-color: white;
-        height: 400px;
+        height: 500px;
         display: flex;
         flex-direction: column;
         justify-content: center;
         align-items: center;
 
         border-radius: 16px;
+      }
+
+      form > a {
+        font-size: 2rem;
+        margin-bottom: 30px;
+        color: paleturquoise;
+      }
+
+      a:hover {
+        color: palegreen;
       }
 
       .input {
@@ -85,6 +95,16 @@
         font-weight: bold;
       }
 
+      .field {
+        position: relative;
+      }
+
+      .password-check {
+        position: absolute;
+        right: 10px;
+        top: 28px;
+      }
+
       @media screen and (max-width: 600px) {
         form {
           width: 350px;
@@ -101,11 +121,6 @@
     </style>
     <script>
       window.onload = startAnimation;
-
-      function startAnimation() {
-        obTimeOut = window.setTimeout(showDefaultRotate, 5000);
-      }
-
       let imageArray = [
         "https://images.unsplash.com/photo-1505714197102-6ae95091ed70?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2940&q=80",
         "https://images.unsplash.com/photo-1490645935967-10de6ba17061?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1153&q=80",
@@ -114,20 +129,27 @@
         "https://images.unsplash.com/photo-1627907228175-2bf846a303b4?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=1074&q=80",
         "https://images.unsplash.com/photo-1564834744159-ff0ea41ba4b9?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxzZWFyY2h8NHx8cmVjaXBlJTIwMTA4MHxlbnwwfHwwfHw%3D&auto=format&fit=crop&w=500&q=60",
       ];
+      let arrayIndex = Math.floor(Math.random() * imageArray.length);
 
-      let arrayIndex = 0;
+      function startAnimation() {
+        if (arrayIndex > 0) {
+          document.body.style.backgroundImage = `url(${
+            imageArray[arrayIndex - 1]
+          })`;
+        }
+        obTimeOut = window.setTimeout(showDefaultRotate, 5000);
+      }
 
       function showDefaultRotate() {
         arrayIndex++;
-        console.log("하하");
         if (arrayIndex <= imageArray.length) {
           document.body.style.backgroundImage = `url(${
             imageArray[arrayIndex - 1]
           })`;
-          obTimeOut = setTimeout(showDefaultRotate, 15000);
+          obTimeOut = setTimeout(showDefaultRotate, 10000);
         } else {
           arrayIndex = 0;
-          obTimeOut = setTimeout(showDefaultRotate, 15000);
+          obTimeOut = setTimeout(showDefaultRotate, 10000);
         }
       }
 
@@ -138,6 +160,17 @@
       function removeSafe(target) {
         $(`#help-${target}`).addClass("is-hidden");
       }
+
+      function passwordToggle() {
+        if ($("#input-password").prop("type") == "password") {
+          $("#password-img").attr("src", "../static/show-icon.png");
+          $("#input-password").prop("type", "text");
+        } else {
+          $("#password-img").attr("src", "../static/hide-icon.png");
+          $("#input-password").prop("type", "password");
+        }
+      }
+
       function login() {
         let id = $("#input-id").val();
         let password = $("#input-password").val();
@@ -147,7 +180,6 @@
           $("#input-id").focus();
           return;
         } else {
-          $("#help-id-login").text("");
           $("#help-id").addClass("is-hidden");
         }
 
@@ -156,7 +188,6 @@
           $("#input-password").focus();
           return;
         } else {
-          $("#help-password-login").text("");
           $("#help-password").addClass("is-hidden");
         }
 
@@ -172,7 +203,11 @@
               $.cookie("mytoken", response["token"], { path: "/" });
               window.location.replace("/");
             } else {
-              alert(response["msg"]);
+              alert("아이디와 비밀번호가 일치하지 않습니다.");
+              $("#help-password").removeClass("is-hidden");
+              $("#help-id").text("아이디를 확인해주세요.");
+              $("#help-id").removeClass("is-hidden");
+              $("#help-password").text("비밀번호를 확인해주세요.");
             }
           },
         });
@@ -182,6 +217,7 @@
   <body>
     <div class="container">
       <form id="login">
+        <a href="/">오늘 레시피 어때요</a>
         <div class="field">
           <label for="input-id" class="form-label">아이디</label>
           <input
@@ -204,6 +240,9 @@
             oninput="removeSafe('password')"
             placeholder="비밀번호를 입력해주세요."
           />
+          <div class="password-check" onclick="passwordToggle()">
+            <img id="password-img" src="../static/hide-icon.png" />
+          </div>
           <p id="help-password" class="help is-hidden not-input">
             비밀번호를 입력해주세요.
           </p>
