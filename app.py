@@ -16,6 +16,7 @@ SECRET_KEY = 'SPARTA'
 
 @app.route('/')
 def home():
+    token_receivve = request.cookies.get('mytoken')
     return render_template('index.html')
 
 @app.route('/recipe')
@@ -96,7 +97,7 @@ def log_in_api():
     if result is not None:
         payload = {
             'id': username_receive,
-            'exp':datetime.utcnow() + timedelta(seconds=60*5)
+            'exp':datetime.utcnow() + timedelta(seconds=60*60*24)
         }
         token = jwt.encode(payload,SECRET_KEY,algorithm='HS256').decode('utf-8')
         return jsonify({'result':'success','token':token})
