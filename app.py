@@ -25,13 +25,10 @@ def write():
     return render_template('recipe.html')
 
 
-# @app.route('/comment', methods = ['GET'])
-# def detail(keyword):
-#     #레시피 상세페이지로 가기
-#     return render_template('comment.html', title=keyword)
 @app.route('/comment/<keyword>')
 def comment(keyword):
     return render_template('comment.html', word=keyword)
+
 
 @app.route('/login')
 def log_in():
@@ -41,13 +38,6 @@ def log_in():
 @app.route('/sign_in')
 def sign_in():
     return render_template('sign_in.html')
-
-
-# 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
-@app.route('/recipe', methods=['GET'])
-def recipe_list():
-    recipes = list(db.recipes.find({}, {'_id': False}))
-    return jsonify({'recipe': recipes})
 
 
 # 저장된 레시피 전체 불러오기 ( _id 값은 제외하고 출력)
