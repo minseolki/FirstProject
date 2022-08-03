@@ -60,10 +60,6 @@ def load_image():
 
 
 @app.route('/api/login',methods=['POST'])
-
-
-
-@app.route('/api/login',methods=['POST'])
 def log_in_api():
 
     username_receive = request.form['username_give']
@@ -103,6 +99,13 @@ def api_sign_in():
     db.user.insert_one(doc)
 
     return jsonify({'msg': '등록 완료!'})
+
+# 아이디 중복 확인
+@app.route('/sign_in/check_dup', methods=['POST'])
+def check_dup():
+    id_receive = request.form['id_give']
+    exists = bool(db.user.find_one({"id": id_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
 
 
 @app.route('/sign_in')
