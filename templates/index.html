@@ -153,7 +153,7 @@
 
                                             </div>
                                         </div>`;
-                        $("#cards-box").append(temp_html);
+                        $("#cards-box").prepend(temp_html);
                     }
                 },
             });
@@ -164,7 +164,7 @@
             if (!cookie) {
                 console.log('cookie', cookie)
                 let nav_bar = `<div class="container-fluid">
-            <a class="navbar-brand" href="/">오늘 레시피 어때요</a>
+            <a class="navbar-brand" href="/">오늘 레시피 어때요🍽</a>
             <div class="nav-bar">
                 <ul class="nav justify-content-end">
                     <li class="nav-item">
@@ -201,8 +201,7 @@
 
 <body>
 <header>
-    <nav class="navbar navbar-expand-lg" id="insert-item">
-
+    <nav class="navbar" id="insert-item">
     </nav>
 </header>
 
