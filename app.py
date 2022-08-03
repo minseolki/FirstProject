@@ -72,10 +72,6 @@ def load_image():
 
 
 @app.route('/api/login',methods=['POST'])
-
-
-
-@app.route('/api/login',methods=['POST'])
 def log_in_api():
 
     username_receive = request.form['username_give']
@@ -118,12 +114,6 @@ def api_sign_in():
 @app.route('/sign_in')
 def sign_In():
     return render_template('sign_in.html')
-
-
-@app.route('/login')
-def log_in():
-    return render_template('login.html')
-
 
 @app.route("/homework", methods=["POST"])
 def homework_post():
