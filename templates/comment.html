@@ -24,37 +24,22 @@
 
         .mypic {
             width: 100%;
-            height: 300px;
-
-            background-color: black;
-            color: white;
-
+            height: 400px;
+            margin-top: 20px;
             display: flex;
             flex-direction: column;
             align-items: center;
             justify-content: center;
         }
 
-
-        .posting {
-            width: 100%;
-            height: 300px;
-
-
-        .food {
-            max-width: 100%;
-            max-height: 300px;
-            display: block;
-            margin: auto;
-        }
-
-        .posting {
-            box-shadow: 0 0 3px 0 black;
+        .recipe-box {
+            width: 95%;
+            max-width: 800px;
             margin: 20px auto 20px auto;
-            width: 90%;
+
+            box-shadow: 0px 0px 1px 0px black;
             padding: 20px;
         }
-
 
         .comment-box {
             width: 95%;
@@ -79,91 +64,76 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
+
     </style>
     <script>
         word = decodeURI(window.location.pathname).split('/')[2]
         console.log(word)
         $(document).ready(function () {
             show_comment()
+            show_recipe(word)
         });
-        {##}
 
-        function to_main() {
-            window.location.href = "/"
+        function show_recipe(a) {
+            $.ajax({
+                type: "GET",
+                url: "/api/recipe",
+                data: {},
+                success: function (response) {
+                    let rows = response["recipe"];
+                    for (let i = 0; i < rows.length; i++) {
+                        let title = rows[i]["title"];
+                        if (title == a) {
+                            let line_desc = rows[i]["line_desc"];
+                            let img = rows[i]["img"];
+                            let content = rows[i]["content"]
+                            let temp_html = `<div class="mypic">
+                                                <img class="food" style="max-width: 100%;max-height: 100%;"
+                                                    src="${img}">
+                                            </div>
+                                            <div class="recipe-box">
+                                                <p style="margin-left: 10px" class="h1"><strong>${title}</strong></p>
+                                                <i style="margin-left: 15px">${line_desc}</i>
+                                                <p style="margin-top: 20px; margin-left:10px"><strong>${content}</strong></p>
+                                            </div>`;
+                            $("#card-box").append(temp_html);
+                        }
+                    }
+                },
+            });
         }
 
-    {#    function get_recipe(word) {#}
-    {#        $.ajax({#}
-    {#            type: "GET",#}
-    {#            url: "/detail/recipe",#}
-    {#            data: {},#}
-    {#            success: function (response) {#}
-    {#                let rows = response["recipe"];#}
-    {#                let title = rows[0]["title"];#}
-    {#                let line_desc = rows[0]["line_desc"];#}
-    {#                let img = rows[0]["img"];#}
-    {#                let temp_img = `<img src="${img}">`#}
-    {#                $("#mypic").append(temp_img);#}
-    {#                let temp_html = `<div class="container">#}
-    {#    <div class="d-flex justify-content-between align-items-end">#}
-    {#        <div>#}
-    {#            <h1 style="display: inline;">${title}</h1>#}
-    {#            <h6 style="display: inline; margin-left: 20px"> ${line_desc} </h6>#}
-    {#        </div>#}
-    {#        <div class="btn-group" role="group" aria-label="Basic outlined example">#}
-    {#            <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>#}
-    {#            <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>#}
-    {#        </div>#}
-    {#    </div>#}
-    {#    <hr>#}
-    {#    <div id="content">#}
-    {#        <span >${content}</span>#}
-    {#    </div>#}
-    {#</div>`;#}
-    {#                $("#posting").append(temp_html);#}
-    {##}
-    {#                recipe = [title, line_desc, img]#}
-    {##}
-    {#                console.log(recipe)#}
-    {#                return recipe#}
-    {#            }#}
-    {#        })#}
-    {#    }#}
-    {##}
+
+        function save_comment() {
+            let name = $('#name').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                type: 'POST',
+                url: '/comment',
+                data: {
+                    name_g: name,
+                    comment_g: comment,
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
 
 
+                }
+            })
+        }
 
-            function save_comment() {
-                let name = $('#name').val()
-                let comment = $('#comment').val()
-                $.ajax({
-                    type: 'POST',
-                    url: '/comment',
-                    data: {
-                        name_g: name,
-                        comment_g: comment,
-                    },
-                    success: function (response) {
-                        alert(response['msg'])
-                        window.location.reload()
-
-        
-                    }
-                })
-            }
-
-
-            function show_comment() {
-                $.ajax({
-                    type: "GET",
-                    url: "/comment",
-                    data: {},
-                    success: function (response) {
-                        let rows = response['cmtlist']
-                        for (let i = 0; i < rows.length; i++) {
-                            let name = rows[i]['name']
-                            let comment = rows[i]['comment']
-                            let temp = `<div class="card">
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/comment",
+                data: {},
+                success: function (response) {
+                    let rows = response['cmtlist']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+                        let comment = rows[i]['comment']
+                        let temp = `<div class="card">
                                             <div class="card-body">
                                                 <blockquote class="blockquote mb-0">
                                                     <p>${name}</p>
@@ -172,38 +142,15 @@
                                                 </blockquote>
                                             </div>
                                         </div>`
-                            $('#comment-list').append(temp)
-                        }
+                        $('#comment-list').append(temp)
                     }
-                });
-            }
+                }
+            });
+        }
     </script>
 </head>
 
-<body>
-<div class="mypic">
-    <img class="food" style="max-width: 100%;max-height: 100%;"
-         src="http://cdn.kormedi.com/news/article/__icsFiles/artimage/2018/08/22/c_km601/salad580.jpg">
-</div>
-
-<div class="posting">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-end">
-            <div>
-                <h1 id="title" style="display: inline;">title</h1>
-                <h6 id="line_desc" style="display: inline; margin-left: 20px"> line_desc </h6>
-            </div>
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>
-                <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>
-            </div>
-        </div>
-        <hr>
-        <div id="content">
-            <span id=content>content</span>
-        </div>
-    </div>
-</div>
+<div id="card-box"></div>
 
 <div class="comment-box">
     <div class="form-floating ">
@@ -220,7 +167,5 @@
 </div>
 <div class="mycards" id="comment-list">
 </div>
-<button onclick="word_log()" type="button" class="btn btn-dark">올리기</button>
 </body>
 </html>
-
