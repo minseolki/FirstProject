@@ -26,10 +26,7 @@
             width: 100%;
             height: 300px;
 
-            background-image: linear-gradient(0deg, rgba(0, 0, 0, 0.5), rgba(0, 0, 0, 0.5)), url('백그라운드 url');
-            background-position: center 30%;
-            background-size: cover;
-
+            background-color: black;
             color: white;
 
             display: flex;
@@ -38,21 +35,26 @@
             justify-content: center;
         }
 
+
         .posting {
             width: 100%;
             height: 300px;
 
-            background-image: url('백그라운드 url');
-            background-position: center 30%;
-            background-size: cover;
 
-            color: black;
-
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-            justify-content: center;
+        .food {
+            max-width: 100%;
+            max-height: 300px;
+            display: block;
+            margin: auto;
         }
+
+        .posting {
+            box-shadow: 0 0 3px 0 black;
+            margin: 20px auto 20px auto;
+            width: 90%;
+            padding: 20px;
+        }
+
 
         .comment-box {
             width: 95%;
@@ -79,9 +81,57 @@
         }
     </style>
     <script>
+        word = decodeURI(window.location.pathname).split('/')[2]
+        console.log(word)
         $(document).ready(function () {
             show_comment()
         });
+        {##}
+
+        function to_main() {
+            window.location.href = "/"
+        }
+
+    {#    function get_recipe(word) {#}
+    {#        $.ajax({#}
+    {#            type: "GET",#}
+    {#            url: "/detail/recipe",#}
+    {#            data: {},#}
+    {#            success: function (response) {#}
+    {#                let rows = response["recipe"];#}
+    {#                let title = rows[0]["title"];#}
+    {#                let line_desc = rows[0]["line_desc"];#}
+    {#                let img = rows[0]["img"];#}
+    {#                let temp_img = `<img src="${img}">`#}
+    {#                $("#mypic").append(temp_img);#}
+    {#                let temp_html = `<div class="container">#}
+    {#    <div class="d-flex justify-content-between align-items-end">#}
+    {#        <div>#}
+    {#            <h1 style="display: inline;">${title}</h1>#}
+    {#            <h6 style="display: inline; margin-left: 20px"> ${line_desc} </h6>#}
+    {#        </div>#}
+    {#        <div class="btn-group" role="group" aria-label="Basic outlined example">#}
+    {#            <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>#}
+    {#            <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>#}
+    {#        </div>#}
+    {#    </div>#}
+    {#    <hr>#}
+    {#    <div id="content">#}
+    {#        <span >${content}</span>#}
+    {#    </div>#}
+    {#</div>`;#}
+    {#                $("#posting").append(temp_html);#}
+    {##}
+    {#                recipe = [title, line_desc, img]#}
+    {##}
+    {#                console.log(recipe)#}
+    {#                return recipe#}
+    {#            }#}
+    {#        })#}
+    {#    }#}
+    {##}
+
+
 
             function save_comment() {
                 let name = $('#name').val()
@@ -96,6 +146,8 @@
                     success: function (response) {
                         alert(response['msg'])
                         window.location.reload()
+
+        
                     }
                 })
             }
@@ -127,13 +179,32 @@
             }
     </script>
 </head>
+
 <body>
 <div class="mypic">
-    <h1>제목</h1>
+    <img class="food" style="max-width: 100%;max-height: 100%;"
+         src="http://cdn.kormedi.com/news/article/__icsFiles/artimage/2018/08/22/c_km601/salad580.jpg">
 </div>
+
 <div class="posting">
-    <h1>레시피 창</h1>
+    <div class="container">
+        <div class="d-flex justify-content-between align-items-end">
+            <div>
+                <h1 id="title" style="display: inline;">title</h1>
+                <h6 id="line_desc" style="display: inline; margin-left: 20px"> line_desc </h6>
+            </div>
+            <div class="btn-group" role="group" aria-label="Basic outlined example">
+                <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>
+                <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>
+            </div>
+        </div>
+        <hr>
+        <div id="content">
+            <span id=content>content</span>
+        </div>
+    </div>
 </div>
+
 <div class="comment-box">
     <div class="form-floating ">
 
@@ -149,6 +220,7 @@
 </div>
 <div class="mycards" id="comment-list">
 </div>
+<button onclick="word_log()" type="button" class="btn btn-dark">올리기</button>
 </body>
 </html>
 
