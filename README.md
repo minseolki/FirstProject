@@ -13,6 +13,14 @@
 5. 레시피 상세 / 댓글달기
 
 ## API
+| 기능 | Method | URL | request | respose |
+| --- | --- | --- | --- | ---|
+| 메인 | GET | /api/recipe | {'title' : title, 'line_desc' : line_desc, 'img':img} | 레시피 이름, 한 줄 설명, 이미지 |
+| 댓글 조회, 댓글 등록 | GET, POST | /api/comment | {'name':name, 'comment':comment} | 이름, 코멘트 |
+| 회원가입 | POST | /api/sign_in | {'name' : name, 'id' : id, 'password':password} | 이름, 아이디, 비밀번호 |
+| 로그인 | POST | /api/login | {'id' : id, 'password' : password} | JWT 토큰값 |
+| 레시피 작성 | POST | /api/recipe | {'title' : title, 'line_desc' : line_desc, 'content':contetn, 'img':img} | 레시피 이름, 한 줄 설명, 상세 설명, 이미지 |
+
 
 ## 기술 스택
 
@@ -28,10 +36,10 @@
 
 
 ## 팀원 소개
-| 이름 | 구현 기능 |
-| ----- | ----- |
-| 박세린 | 래시피 등록 |
-| 이혜진 | 댓글 달기 |
-| 임연주 | 메인페이지 |
-| 전민석(팀장) | 회원가입 |
-| 홍준형 | 로그인 |
+| 이름 | 구현 기능 | 기능 상세 |
+| ----- | ----- | ---- |
+| 박세린 | 레시피 등록 | 레시피 등록 페이지, 이미지 등록/불러오기, 레시피 상세 페이지 |
+| 이혜진 | 댓글 달기 | 레시피 상세페이지 댓글 조회, 등록 |
+| 임연주 | 메인페이지 | 메인페이지, 헤더, 레시피 불러오기, 탑 버튼 |
+| 전민석(팀장) | 회원가입 | 회원가입 페이지, 회원가입 유효성 검사 |
+| 홍준형 | 로그인 | 로그인 페이지, 로그인 유효성 검사, 브라우저에 쿠키 저장 |

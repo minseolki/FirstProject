@@ -7,60 +7,54 @@
 
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
           integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bulma@0.9.1/css/bulma.min.css">
+
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
             integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
             crossorigin="anonymous"></script>
-
-    <title>댓글창</title>
-
-    <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@200;300;400;500;600;700;900&display=swap"
-          rel="stylesheet">
+    <title>오늘 레시피 어때요</title>
+    <link rel="icon" href="https://i.ibb.co/Vtw0gH7/001-1.png"/>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR&display=swap" rel="stylesheet">
     <style>
         * {
-            font-family: 'Noto Serif KR', serif;
+            font-family: 'Noto Sans KR', sans-serif;
         }
 
         .mypic {
             width: 100%;
-            height: 300px;
-
-            background-color: black;
-            color: white;
-
+            max-width: 1920px;
+            height: 40vh;
             display: flex;
-            flex-direction: column;
-            align-items: center;
+            flex-direction: row;
+            align-items: flex-start;
             justify-content: center;
+            padding: 0 10px;
         }
 
-
-        .posting {
-            width: 100%;
-            height: 300px;
-
-
-        .food {
-            max-width: 100%;
-            max-height: 300px;
-            display: block;
-            margin: auto;
+        .mypic img {
+            max-width: 400px;
+            max-height: 400px;
         }
 
-        .posting {
-            box-shadow: 0 0 3px 0 black;
-            margin: 20px auto 20px auto;
-            width: 90%;
-            padding: 20px;
+        .mypic p {
+            font-size: 20px;
         }
 
+        .recipe-desc {
+            font-style: italic;
+            color: darkgray;
+        }
+
+        .recipe-box {
+            padding: 0 16px;
+        }
 
         .comment-box {
             width: 95%;
             max-width: 500px;
             margin: 20px auto 20px auto;
-
             box-shadow: 0px 0px 3px 0px black;
             padding: 20px;
         }
@@ -79,91 +73,138 @@
             margin-top: 10px;
             margin-bottom: 10px;
         }
+
+        .navbar {
+            padding: 0 10px;
+            margin: 20px 0;
+        }
+
+        .nav-bar {
+            text-align: right;
+        }
+
+        .navbar-text {
+            color: black;
+        }
+
+        .navbar-text:hover {
+            font-weight: bold;
+            color: black;
+        }
+
+
     </style>
     <script>
         word = decodeURI(window.location.pathname).split('/')[2]
-        console.log(word)
         $(document).ready(function () {
             show_comment()
+            show_recipe(word)
+            show_nav_bar();
         });
-        {##}
 
-        function to_main() {
+        // 로그아웃, 저장된 쿠키 삭제
+        function sign_out() {
+            $.removeCookie('mytoken', {path: '/'});
+            alert('로그아웃 되었습니다.')
             window.location.href = "/"
         }
 
-    {#    function get_recipe(word) {#}
-    {#        $.ajax({#}
-    {#            type: "GET",#}
-    {#            url: "/detail/recipe",#}
-    {#            data: {},#}
-    {#            success: function (response) {#}
-    {#                let rows = response["recipe"];#}
-    {#                let title = rows[0]["title"];#}
-    {#                let line_desc = rows[0]["line_desc"];#}
-    {#                let img = rows[0]["img"];#}
-    {#                let temp_img = `<img src="${img}">`#}
-    {#                $("#mypic").append(temp_img);#}
-    {#                let temp_html = `<div class="container">#}
-    {#    <div class="d-flex justify-content-between align-items-end">#}
-    {#        <div>#}
-    {#            <h1 style="display: inline;">${title}</h1>#}
-    {#            <h6 style="display: inline; margin-left: 20px"> ${line_desc} </h6>#}
-    {#        </div>#}
-    {#        <div class="btn-group" role="group" aria-label="Basic outlined example">#}
-    {#            <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>#}
-    {#            <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>#}
-    {#        </div>#}
-    {#    </div>#}
-    {#    <hr>#}
-    {#    <div id="content">#}
-    {#        <span >${content}</span>#}
-    {#    </div>#}
-    {#</div>`;#}
-    {#                $("#posting").append(temp_html);#}
-    {##}
-    {#                recipe = [title, line_desc, img]#}
-    {##}
-    {#                console.log(recipe)#}
-    {#                return recipe#}
-    {#            }#}
-    {#        })#}
-    {#    }#}
-    {##}
-
-
-
-            function save_comment() {
-                let name = $('#name').val()
-                let comment = $('#comment').val()
-                $.ajax({
-                    type: 'POST',
-                    url: '/comment',
-                    data: {
-                        name_g: name,
-                        comment_g: comment,
-                    },
-                    success: function (response) {
-                        alert(response['msg'])
-                        window.location.reload()
-
-        
-                    }
-                })
+        // navbar 호출, 로그인 유무에 따라 헤더값 변경
+        function show_nav_bar() {
+            let cookie = document.cookie;
+            if (!cookie) {
+                let nav_bar = `<div class="container-fluid">
+            <a class="navbar-brand navbar-text" href="/">오늘 레시피 어때요</a>
+            <div class="nav-bar">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" href="/login">로그인</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" href="/sign_in">회원가입</a>
+                    </li>
+                </ul>
+            </div>
+        </div>`
+                $('#insert-item').append(nav_bar)
+            } else {
+                let user_nav_bar = `<div class="container-fluid">
+            <a class="navbar-brand navbar-text" href="/">오늘 레시피 어때요</a>
+            <div class="nav-bar">
+                <ul class="nav justify-content-end">
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" href="/recipe">레시피등록</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link navbar-text" href="javascript:void(0);" onclick="sign_out()">로그아웃</a>
+                    </li>
+                </ul>
+            </div>
+        </div>`
+                $('#insert-item').append(user_nav_bar)
             }
+        }
+
+        function show_recipe(a) {
+            $.ajax({
+                type: "GET",
+                url: "/api/recipe",
+                data: {},
+                success: function (response) {
+                    let rows = response["recipe"];
+                    for (let i = 0; i < rows.length; i++) {
+                        let title = rows[i]["title"];
+                        if (title == a) {
+                            let line_desc = rows[i]["line_desc"];
+                            let img = rows[i]["img"];
+                            let content = rows[i]["content"]
+                            let temp_html = `<div class="mypic">
+                                                <img class="food" src="${img}">
+                                                <div class="recipe-box">
+                                                    <h2>${title} 어때요 🍽</h2>
+                                                    <p class="recipe-desc">${line_desc}</p>
+                                                    <p>상세 레시피 : <br>${content}</p>
+                                                </div>
+                                            </div>
+                                            `;
+                            $("#card-box").append(temp_html);
+                        }
+                    }
+                },
+            });
+        }
 
 
-            function show_comment() {
-                $.ajax({
-                    type: "GET",
-                    url: "/comment",
-                    data: {},
-                    success: function (response) {
-                        let rows = response['cmtlist']
-                        for (let i = 0; i < rows.length; i++) {
-                            let name = rows[i]['name']
-                            let comment = rows[i]['comment']
-                            let temp = `<div class="card">
+        function save_comment() {
+            let name = $('#name').val()
+            let comment = $('#comment').val()
+            $.ajax({
+                type: 'POST',
+                url: '/comment',
+                data: {
+                    name_g: name,
+                    comment_g: comment,
+                },
+                success: function (response) {
+                    alert(response['msg'])
+                    window.location.reload()
+
+
+                }
+            })
+        }
+
+        function show_comment() {
+            $.ajax({
+                type: "GET",
+                url: "/comment",
+                data: {},
+                success: function (response) {
+                    let rows = response['cmtlist']
+                    for (let i = 0; i < rows.length; i++) {
+                        let name = rows[i]['name']
+                        let comment = rows[i]['comment']
+                        let temp = `<div class="card">
                                             <div class="card-body">
                                                 <blockquote class="blockquote mb-0">
                                                     <p>${name}</p>
@@ -172,38 +213,20 @@
                                                 </blockquote>
                                             </div>
                                         </div>`
-                            $('#comment-list').append(temp)
-                        }
+                        $('#comment-list').append(temp)
                     }
-                });
-            }
+                }
+            });
+        }
     </script>
 </head>
-
 <body>
-<div class="mypic">
-    <img class="food" style="max-width: 100%;max-height: 100%;"
-         src="http://cdn.kormedi.com/news/article/__icsFiles/artimage/2018/08/22/c_km601/salad580.jpg">
-</div>
+<header>
+    <nav class="navbar" id="insert-item">
+    </nav>
+</header>
 
-<div class="posting">
-    <div class="container">
-        <div class="d-flex justify-content-between align-items-end">
-            <div>
-                <h1 id="title" style="display: inline;">title</h1>
-                <h6 id="line_desc" style="display: inline; margin-left: 20px"> line_desc </h6>
-            </div>
-            <div class="btn-group" role="group" aria-label="Basic outlined example">
-                <button onclick="get_recipe(word)" type="button" class="btn btn-outline-dark">delete</button>
-                <button onclick="to_main()" type="button" class="btn btn-outline-dark">Home</button>
-            </div>
-        </div>
-        <hr>
-        <div id="content">
-            <span id=content>content</span>
-        </div>
-    </div>
-</div>
+<div id="card-box"></div>
 
 <div class="comment-box">
     <div class="form-floating ">
@@ -220,7 +243,5 @@
 </div>
 <div class="mycards" id="comment-list">
 </div>
-<button onclick="word_log()" type="button" class="btn btn-dark">올리기</button>
 </body>
 </html>
-
