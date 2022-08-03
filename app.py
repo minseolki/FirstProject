@@ -20,8 +20,22 @@ def home():
     return render_template('index.html')
 
 @app.route('/recipe')
-def detail():
+def write():
     return render_template('recipe.html')
+
+# @app.route('/comment', methods = ['GET'])
+# def detail(keyword):
+#     #레시피 상세페이지로 가기
+#     return render_template('comment.html', title=keyword)
+@app.route('/comment/<keyword>')
+def comment(keyword):
+    return render_template('comment.html', word = keyword)
+
+
+@app.route('/detail/recipe', methods=['GET'])
+def detail_recipe_get(a):
+    de_recipe = db.recipe.find({}, {'title': a})
+    return jsonify({'de_recipe': de_recipe})
 
 @app.route('/login')
 def log_in():
@@ -42,7 +56,6 @@ def recipe_list():
 def recipe_get():
     recipes = list(db.recipe.find({}, {'_id': False}))
     return jsonify({'recipe': recipes})
-
 
 @app.route("/recipe", methods =["POST"])
 def save_recipe():
