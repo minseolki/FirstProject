@@ -72,10 +72,6 @@ def load_image():
 
 
 @app.route('/api/login',methods=['POST'])
-
-
-
-@app.route('/api/login',methods=['POST'])
 def log_in_api():
 
     username_receive = request.form['username_give']
