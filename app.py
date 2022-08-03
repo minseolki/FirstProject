@@ -85,6 +85,7 @@ def log_in_api():
             'id': username_receive,
             'exp':datetime.utcnow() + timedelta(seconds=60*5)
         }
+        #token = jwt.encode(payload,SECRET_KEY,algorithm='HS256').decode('utf-8')
         token = jwt.encode(payload,SECRET_KEY,algorithm='HS256')
         return jsonify({'result':'success','token':token})
     else:
@@ -115,7 +116,6 @@ def api_sign_in():
 def sign_In():
     return render_template('sign_in.html')
 
-
 @app.route("/homework", methods=["POST"])
 def homework_post():
     name_r = request.form['name_g']
@@ -135,6 +135,7 @@ def homework_get():
     # db 꺼내기(리스트)
     fancomments_ilst = list(db.comments.find({}, {'_id': False}))
     return jsonify({'fanlist':fancomments_ilst,'msg2':'GET완료'})
+
 
 if __name__ == '__main__':
     app.run('0.0.0.0', port=5000, debug=True)
