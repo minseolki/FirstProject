@@ -112,9 +112,13 @@ def api_sign_in():
 
     return jsonify({'msg': '등록 완료!'})
 
-@app.route('/sign_in')
-def sign_In():
-    return render_template('sign_in.html')
+
+# 아이디 중복 확인
+@app.route('/sign_in/check_dup', methods=['POST'])
+def check_dup():
+    id_receive = request.form['id_give']
+    exists = bool(db.user.find_one({"id": id_receive}))
+    return jsonify({'result': 'success', 'exists': exists})
 
 @app.route("/homework", methods=["POST"])
 def homework_post():
