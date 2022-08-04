@@ -47,7 +47,7 @@ def recipe_get():
     return jsonify({'recipe': recipes})
 
 
-@app.route("/recipe", methods=["POST"])
+@app.route("/api/recipe", methods=["POST"])
 def save_recipe():
     title_receive = request.form['title_give']
     line_desc_receive = request.form['line_desc_give']
