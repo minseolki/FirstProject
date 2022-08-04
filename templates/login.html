@@ -16,7 +16,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
     <title>오늘 레시피 어때요</title>
-    <link rel="icon" href="https://i.ibb.co/Vtw0gH7/001-1.png"/>
+    <link rel="icon" href="https://i.ibb.co/Vtw0gH7/001-1.png" />
     <style>
       * {
         font-family: "Noto Sans KR", sans-serif;
@@ -103,7 +103,7 @@
       .password-check {
         position: absolute;
         right: 10px;
-        top: 28px;
+        top: 29px;
       }
 
       @media screen and (max-width: 600px) {
@@ -206,10 +206,10 @@
               window.location.replace("/");
             } else {
               alert("아이디와 비밀번호가 일치하지 않습니다.");
-              $("#help-password").removeClass("is-hidden");
               $("#help-id").text("아이디를 확인해주세요.");
               $("#help-id").removeClass("is-hidden");
               $("#help-password").text("비밀번호를 확인해주세요.");
+              $("#help-password").removeClass("is-hidden");
             }
           },
         });
