@@ -110,7 +110,7 @@ def api_sign_in():
     }
     db.user.insert_one(doc)
 
-    return jsonify({'msg': '등록 완료!'})
+    return jsonify({'msg': '회원가입이 완료되었습니다. 로그인페이지로 이동합니다.'})
 
 
 # 아이디 중복 확인
