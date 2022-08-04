@@ -41,7 +41,7 @@
 | 댓글 조회, 댓글 등록 | GET, POST | /api/comment | {'name':name, 'comment':comment} | 이름, 코멘트 |
 | 회원가입 | POST | /api/sign_in | {'name' : name, 'id' : id, 'password':password} | 이름, 아이디, 비밀번호 |
 | 로그인 | POST | /api/login | {'id' : id, 'password' : password} | JWT 토큰값 |
-| 레시피 작성 | POST | /api/recipe | {'title' : title, 'line_desc' : line_desc, 'content':contetn, 'img':img} | 레시피 이름, 한 줄 설명, 상세 설명, 이미지 |
+| 레시피 작성 | POST | /api/recipe | {'title' : title, 'line_desc' : line_desc, 'content':content, 'img':img, 'time':time} | 레시피 이름, 한 줄 설명, 상세 설명, 이미지, 작성 일자 |
 
 
 ## 기술 스택
