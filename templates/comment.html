@@ -25,20 +25,20 @@
         .mypic {
             width: 100%;
             max-width: 1920px;
-            height: 40vh;
             display: flex;
             flex-direction: row;
             align-items: flex-start;
             justify-content: center;
             padding: 0 10px;
+            margin-bottom: 10px;
         }
 
-        .mypic img {
+        .mypic > img {
             max-width: 400px;
             max-height: 400px;
         }
 
-        .mypic p {
+        .mypic > p {
             font-size: 20px;
         }
 
@@ -158,10 +158,12 @@
                             let line_desc = rows[i]["line_desc"];
                             let img = rows[i]["img"];
                             let content = rows[i]["content"]
+                            let time = rows[i]["time"]
                             let temp_html = `<div class="mypic">
                                                 <img class="food" src="${img}">
                                                 <div class="recipe-box">
                                                     <h2>${title} 어때요 🍽</h2>
+                                                    <p style = "float : right">작성일: ${time}</p>
                                                     <p class="recipe-desc">${line_desc}</p>
                                                     <p>상세 레시피 : <br>${content}</p>
                                                 </div>
